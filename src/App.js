@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {Component} from 'react';
+import AppHeader from "./AppHeader";
+import ContactsList from "./ContactsList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const allContacts=['Michal', 'Kasia', 'Jacek', 'Marta', 'Tomek', 'Ania'];
+
+class App extends Component {
+
+    constructor() {
+        super();
+        this.state={filteredContacts: allContacts}
+    }
+
+
+    validateOutput(event){
+        // eslint-disable-next-line no-unused-vars
+        const text= event.currentTarget.value;
+        const filteredContacts= this.getfilteredByEnteredText(text);
+        this.setState({filteredContacts})
+    }
+    getfilteredByEnteredText(text) {
+        return allContacts.filter(contact=>contact.toLowerCase().includes(text));
+    }
+
+render() {
+    return(
+        <div>
+    <AppHeader onSearchInput={this.validateOutput.bind(this)} />
+    <ContactsList contacts={this.state.filteredContacts}/>
+        </div>
+);
 }
 
-export default App;
+}
+
+
+    export default App;
